@@ -5,7 +5,8 @@ import AuthInput from "./AuthInput";
 import { useDispatch, useSelector } from "react-redux";
 import PulseLoader from "react-spinners/PulseLoader";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../features/userSlice";
+import { loginUser } from "../../features/user.slice";
+
 export default function RegisterForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

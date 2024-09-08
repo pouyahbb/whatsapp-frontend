@@ -6,7 +6,7 @@ import { signupSchema } from "../../utils/validation";
 import AuthInput from "./AuthInput";
 import { useDispatch, useSelector } from "react-redux";
 import { PulseLoader } from "react-spinners";
-import { changeStatus, registerUser } from "../../features/userSlice";
+import { changeStatus, registerUser } from "../../features/user.slice";
 import Picture from "./Picture";
 import axios from "axios";
 
