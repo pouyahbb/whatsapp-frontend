@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const Search = ({ searchLength, setSearchResults }) => {
   const [show, setShow] = useState(false);
   const { user } = useSelector((state) => state.user);
+
   const handleSearch = async (e) => {
     if (e.target.value && e.key === "Enter") {
       try {
@@ -34,7 +35,10 @@ const Search = ({ searchLength, setSearchResults }) => {
         <div className="flex items-center gap-x-2">
           <div className="w-full flex dark:bg-dark_bg_2 rounded-lg pl-2">
             {show || searchLength > 0 ? (
-              <span className="w-8 flex items-center justify-center rotateAnimation">
+              <span
+                className="w-8 flex items-center justify-center rotateAnimation cursor-pointer"
+                onClick={() => setSearchResults([])}
+              >
                 <ReturnIcon className="fill-green_1 w-5" />
               </span>
             ) : (

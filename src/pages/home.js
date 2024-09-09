@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { Sidebar } from "../components/sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { getConversations } from "../features/chat.slice";
+import { ChatContainer, WhatsappHome } from "../components/Chat";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const { activeConversation } = useSelector((state) => state.chat);
+  console.log(activeConversation);
   useEffect(() => {
     const getCons = async () => {
       const res = await dispatch(getConversations(user.access_token));
@@ -21,6 +23,7 @@ const Home = () => {
     <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
       <div className="container  h-screen flex py-[19px]">
         <Sidebar />
+        {activeConversation?._id ? <ChatContainer /> : <WhatsappHome />}
       </div>
     </div>
   );
