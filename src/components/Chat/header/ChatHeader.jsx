@@ -8,14 +8,14 @@ const ChatHeader = () => {
   const { name, picture } = activeConversation;
 
   return (
-    <div className="h-[59px] dark:bg-dark_bg_2 flex items-center select-none">
+    <div className="h-[50px] px-2 dark:bg-dark_bg_2 flex items-center select-none">
       <div className="w-full flex items-center justify-between">
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-2">
           <button className="btn">
             <img
               src={picture}
               alt={`${name} picture`}
-              className="w-full h-full rounded-full object-cover"
+              className="w-full h-full w-[38px] h-[38px] rounded-full object-cover"
             />
           </button>
           <div className="flex flex-col">

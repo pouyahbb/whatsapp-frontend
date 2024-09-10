@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { open_create_conversation } from "../../../features/chat.slice";
+import SocketContext from "../../../context/SocketContext";
 
-export const Contact = ({ contact, setSearchResults }) => {
+function Contact({ contact, setSearchResults, socket }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const values = {
@@ -12,7 +13,8 @@ export const Contact = ({ contact, setSearchResults }) => {
     picture: "",
   };
   const openConversation = async () => {
-    await dispatch(open_create_conversation(values));
+    let newConvo = await dispatch(open_create_conversation(values));
+    socket.emit("join conversation", newConvo.payload._id);
     setSearchResults([]);
   };
   return (
@@ -46,6 +48,12 @@ export const Contact = ({ contact, setSearchResults }) => {
       <div className="ml-16 border-b dark:border-b-dark_border_1"></div>
     </li>
   );
-};
+}
 
-export default Contact;
+const ContactWithSocket = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <Contact {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default ContactWithSocket;

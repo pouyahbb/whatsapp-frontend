@@ -4,7 +4,7 @@ const Input = ({ message, setMessage, textRef }) => {
   const onChangeHandler = (e) => {
     setMessage(e.target.value);
   };
-  console.log(message);
+
   return (
     <div className="w-full">
       <input

@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import Message from "./Message";
 
 const ChatMessages = () => {
   const { messages } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
+  const endRef = useRef();
+
+  // scroll to end of the conversation
+  useEffect(() => {
+    scrollToBotton();
+  }, [messages]);
+
+  const scrollToBotton = () => {
+    endRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div
@@ -20,6 +30,8 @@ const ChatMessages = () => {
               me={user._id === message.sender._id}
             />
           ))}
+
+        <div className="mt-2" ref={endRef}></div>
       </div>
     </div>
   );

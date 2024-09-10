@@ -4,8 +4,9 @@ import { dateHandler } from "../../../utils/date";
 import { open_create_conversation } from "../../../features/chat.slice";
 import { getConversationId } from "../../../utils/chat";
 import { capitilize } from "../../../utils/string";
+import SocketContext from "../../../context/SocketContext";
 
-const Conversation = ({ convo }) => {
+function Conversation({ convo, socket }) {
   const { activeConversation } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -16,13 +17,18 @@ const Conversation = ({ convo }) => {
     isGroup: false,
     picture: "",
   };
-  const openConversation = () => {
-    dispatch(open_create_conversation(values));
+  const openConversation = async () => {
+    let newConvo = await dispatch(open_create_conversation(values));
+    socket.emit("join conversation", newConvo.payload._id);
   };
   return (
     <li
       onClick={() => openConversation()}
-      className="list-none h-[72px] w-full dark:bg-dark_bg_1 hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px] "
+      className={`list-none h-[72px] w-full dark:bg-dark_bg_1 hover:${
+        convo._id === activeConversation._id ? "" : "dark:bg-dark_bg_2"
+      } cursor-pointer dark:text-dark_text_1 px-[10px] ${
+        convo._id === activeConversation._id ? " dark:bg-dark_hover_1" : ""
+      }`}
     >
       <div className="relative w-full flex items-center justify-between py-[10px]">
         {/* leftside */}
@@ -64,6 +70,12 @@ const Conversation = ({ convo }) => {
       <div className="ml-16 border-b dark:border-b-dark_border_1"></div>
     </li>
   );
-};
+}
 
-export default Conversation;
+const ConversationWithSocket = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <Conversation {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default ConversationWithSocket;

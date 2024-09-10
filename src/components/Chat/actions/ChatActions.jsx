@@ -13,6 +13,7 @@ const ChatActions = () => {
   const { user } = useSelector((state) => state.user);
   const textRef = useRef();
   const [showPicker, setShowPicker] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showAttachments, setShowAttachments] = useState(false);
 
   const dispatch = useDispatch();
@@ -26,9 +27,11 @@ const ChatActions = () => {
 
   const sendMessageHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (message.length > 0) {
       await dispatch(sendMessage(values));
       setMessage("");
+      setLoading(false);
     }
   };
   return (
@@ -54,7 +57,7 @@ const ChatActions = () => {
         </ul>
         <Input textRef={textRef} message={message} setMessage={setMessage} />
         <button type="submit" className="btn">
-          {status === "loading" ? (
+          {status === "loading" && loading ? (
             <ClipLoader color="#E9EDEF" size={25} />
           ) : (
             <SendIcon className="dark:fill-dark_svg_1" />

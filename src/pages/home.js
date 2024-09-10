@@ -1,22 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar } from "../components/sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import { getConversations } from "../features/chat.slice";
+import { getConversations, setConversations } from "../features/chat.slice";
 import { ChatContainer, WhatsappHome } from "../components/Chat";
+import { useNavigate } from "react-router-dom";
+import SocketContext from "../context/SocketContext";
 
-const Home = () => {
+function Home({ socket }) {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { activeConversation } = useSelector((state) => state.chat);
-  console.log(activeConversation);
+  const [loading, setLoading] = useState(true);
+
+  const getCons = async () => {
+    const res = await dispatch(getConversations(user.access_token));
+    if (res.type === "conervsation/all/fulfilled") {
+      dispatch(setConversations(res.payload));
+    }
+  };
+
   useEffect(() => {
-    const getCons = async () => {
-      const res = await dispatch(getConversations(user.access_token));
-      console.log(res);
-    };
-    if (user?.access_token) {
+    if (!user) {
+      navigate("/login");
+    } else {
       getCons();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // join user into the socket io
+  useEffect(() => {
+    socket.emit("join", user);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
@@ -27,6 +41,11 @@ const Home = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Home;
+const HomeWithSocket = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <Home {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+export default HomeWithSocket;
