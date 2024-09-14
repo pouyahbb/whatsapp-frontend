@@ -2,11 +2,15 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dateHandler } from "../../../utils/date";
 import { open_create_conversation } from "../../../features/chat.slice";
-import { getConversationId } from "../../../utils/chat";
+import {
+  getConversationId,
+  getConversationName,
+  getConversationPicture,
+} from "../../../utils/chat";
 import { capitilize } from "../../../utils/string";
 import SocketContext from "../../../context/SocketContext";
 
-function Conversation({ convo, socket }) {
+function Conversation({ convo, socket, online, typing }) {
   const { activeConversation } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -33,26 +37,33 @@ function Conversation({ convo, socket }) {
       <div className="relative w-full flex items-center justify-between py-[10px]">
         {/* leftside */}
         <div className="flex items-center gap-x-3">
-          <div className="relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden">
+          <div
+            className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden ${
+              online ? "online" : ""
+            }`}
+          >
             <img
-              src={convo.picture}
-              alt={convo.name}
+              src={getConversationPicture(user, convo.users)}
+              alt="pic"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="w-full flex flex-col">
             <h1 className="font-bold flex items-center gap-x-2">
-              {capitilize(convo.name)}
+              {capitilize(getConversationName(user, convo.users))}
             </h1>
             <div>
               <div className="flex items-center gap-x-1 dark:text-dark_text_2">
-                <div className="flex-1    items-center gap-x-1 dark:text-dark_text_2">
-                  <p>
-                    {" "}
-                    {convo?.latestMessage?.message.length > 25
-                      ? `${convo?.latestMessage?.message.substring(0, 25)}...`
-                      : convo?.latestMessage?.message}{" "}
-                  </p>
+                <div className="flex-1 items-center gap-x-1 dark:text-dark_text_2">
+                  {typing === convo._id ? (
+                    <p className="text-green_1">Typing...</p>
+                  ) : (
+                    <p>
+                      {convo?.latestMessage?.message.length > 25
+                        ? `${convo?.latestMessage?.message.substring(0, 25)}...`
+                        : convo?.latestMessage?.message}{" "}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import SearchLargeIcon from "../../../svg/SearchLarge";
 import DotsIcon from "../../../svg/Dots";
 import { capitilize } from "../../../utils/string";
-const ChatHeader = () => {
+
+const ChatHeader = ({ online }) => {
   const { activeConversation } = useSelector((state) => state.chat);
   const { name, picture } = activeConversation;
 
@@ -14,15 +15,17 @@ const ChatHeader = () => {
           <button className="btn">
             <img
               src={picture}
-              alt={`${name} picture`}
-              className="w-full h-full w-[38px] h-[38px] rounded-full object-cover"
+              alt={`${name} pic`}
+              className="w-full h-[38px] rounded-full object-cover"
             />
           </button>
           <div className="flex flex-col">
             <h1 className="dark:text-white text-md font-bold">
               {capitilize(name.split(" ")[0])}
             </h1>
-            <span className="text-xs dark:text-dark_svg_2"> online </span>
+            <span className="text-xs dark:text-dark_svg_2">
+              {online ? "Online" : ""}
+            </span>
           </div>
         </div>
         <ul className="flex items-center gap-x-2.5">

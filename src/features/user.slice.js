@@ -46,10 +46,10 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (stat) => {
-      stat.status = "";
-      stat.error = "";
-      stat.user = {
+    logout: (state) => {
+      state.status = "";
+      state.error = "";
+      state.user = {
         _id: "",
         name: "",
         email: "",
