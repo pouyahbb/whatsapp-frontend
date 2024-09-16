@@ -1,3 +1,4 @@
+// clean code
 import React, { useRef, useState } from "react";
 import EmojiPickerApp from "./EmojiPickerApp";
 import { Attachments } from "./attachments";
@@ -10,13 +11,13 @@ import SocketContext from "../../../context/SocketContext";
 
 const ChatActions = ({ socket }) => {
   const [message, setMessage] = useState("");
-  const { activeConversation, status } = useSelector((state) => state.chat);
-  const { user } = useSelector((state) => state.user);
-  const textRef = useRef();
   const [showPicker, setShowPicker] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showAttachments, setShowAttachments] = useState(false);
+  const textRef = useRef();
 
+  const { activeConversation, status } = useSelector((state) => state.chat);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const values = {
@@ -28,14 +29,16 @@ const ChatActions = ({ socket }) => {
 
   const sendMessageHandler = async (e) => {
     e.preventDefault();
+    if (!message.trim()) return; // Prevent sending empty messages
     setLoading(true);
-    if (message.length > 0) {
-      let newMessage = await dispatch(sendMessage(values));
-      socket.emit("send message", newMessage.payload);
-      setMessage("");
-      setLoading(false);
-    }
+
+    const newMessage = await dispatch(sendMessage(values));
+    socket.emit("send message", newMessage.payload);
+
+    setMessage("");
+    setLoading(false);
   };
+
   return (
     <form
       onSubmit={sendMessageHandler}
@@ -69,6 +72,7 @@ const ChatActions = ({ socket }) => {
     </form>
   );
 };
+
 const ChatActionsWithSocket = (props) => (
   <SocketContext.Consumer>
     {(socket) => <ChatActions {...props} socket={socket} />}

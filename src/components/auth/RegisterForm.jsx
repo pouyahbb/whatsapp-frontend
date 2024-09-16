@@ -7,6 +7,8 @@ import AuthInput from "./AuthInput";
 import { useDispatch, useSelector } from "react-redux";
 import { PulseLoader } from "react-spinners";
 import { changeStatus, registerUser } from "../../features/user.slice";
+import { showToastbar } from "../../features/toast.slice";
+
 import Picture from "./Picture";
 import axios from "axios";
 
@@ -22,7 +24,6 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signupSchema),
@@ -44,6 +45,13 @@ const RegisterForm = () => {
 
     if (res?.payload?.user) {
       navigate("/");
+      const toastValue = {
+        show: true,
+        message: "Regisration was successful",
+        type: "success",
+        duration: 5000,
+      };
+      dispatch(showToastbar(toastValue));
     }
   };
   const uploadImage = async () => {

@@ -13,7 +13,9 @@ const EmojiPickerApp = ({
   const [cursorPosition, setCursotPosition] = useState();
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cursorPosition]);
+
   const handleEmoji = (emojiData, e) => {
     const { emoji } = emojiData;
     const ref = textRef.current;

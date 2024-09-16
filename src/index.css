@@ -39,16 +39,15 @@
   .online {
     border: 2px solid #00a884;
   }
+
+  /* Apply animation to the toast */
+  .toast {
+    animation: toast-enter 0.5s ease-out;
+  }
 }
 
 .rotateAnimation {
   animation: rotate 0.3s forwards;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(-90deg);
-  }
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -75,11 +74,7 @@
 .openEmojiAnimation {
   animation: openAn 0.1s forwards;
 }
-@keyframes openAn {
-  0% {
-    transform: translateY(60px);
-  }
-}
+
 .epr-search-container input {
   background: #222e35 !important;
   border-radius: 0 !important;
@@ -131,5 +126,27 @@
 @keyframes openTools {
   0% {
     transform: translateY(100%);
+  }
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(-90deg);
+  }
+}
+@keyframes openAn {
+  0% {
+    transform: translateY(60px);
   }
 }

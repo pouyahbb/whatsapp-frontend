@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PulseLoader from "react-spinners/PulseLoader";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../features/user.slice";
+import { showToastbar } from "../../features/toast.slice";
 
 export default function RegisterForm() {
   const dispatch = useDispatch();
@@ -23,6 +24,13 @@ export default function RegisterForm() {
 
     if (res?.payload?.user) {
       navigate("/");
+      const toastValue = {
+        show: true,
+        message: "Welcome back",
+        type: "info",
+        duration: 5000,
+      };
+      dispatch(showToastbar(toastValue));
     }
   };
   return (

@@ -9,6 +9,9 @@ import {
 import { ChatContainer, WhatsappHome } from "../components/Chat";
 import { useNavigate } from "react-router-dom";
 import SocketContext from "../context/SocketContext";
+import { logout } from "../features/user.slice";
+import { closeToastbar } from "../features/toast.slice";
+import Toast from "../components/Toast";
 
 function Home({ socket }) {
   const navigate = useNavigate();
@@ -17,14 +20,32 @@ function Home({ socket }) {
   const { activeConversation } = useSelector((state) => state.chat);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [typing, setTyping] = useState(false);
+  const [showToastbar, setShowToastbar] = useState(false);
+
+  const toast = useSelector((state) => state.toast);
 
   const getCons = async () => {
     const res = await dispatch(getConversations(user.access_token));
     if (res.type === "conervsation/all/fulfilled") {
       dispatch(setConversations(res.payload));
     }
+    if (res.payload === "Unauthorized") {
+      dispatch(logout());
+      navigate("/login");
+    }
   };
-
+  // handle toast bar when close
+  const closeToast = () => {
+    // setShowToast({ show: false, message: "" });
+    dispatch(closeToastbar());
+  };
+  useEffect(() => {
+    if (toast?.show) {
+      setShowToastbar(true);
+    } else {
+      setShowToastbar(false);
+    }
+  }, [toast]);
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -66,6 +87,16 @@ function Home({ socket }) {
           <WhatsappHome />
         )}
       </div>
+      {showToastbar && (
+        <div className="relative">
+          <Toast
+            type={toast.type}
+            onClose={closeToast}
+            message={toast.message}
+            duration={toast.duration}
+          />
+        </div>
+      )}
     </div>
   );
 }

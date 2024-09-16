@@ -11,6 +11,7 @@ const initialState = {
   messages: [],
   activeConversation: {},
   notifications: [],
+  files: [],
 };
 export const getConversations = createAsyncThunk(
   "conervsation/all",
@@ -116,6 +117,9 @@ export const chatSlice = createSlice({
       newConvos.unshift(conversation);
       state.conversations = newConvos;
     },
+    addFiles: (state, action) => {
+      state.files = [...state.files, action.payload];
+    },
   },
   extraReducers(builder) {
     builder
@@ -181,6 +185,7 @@ export const {
   setActiveConversation,
   setConversations,
   updateMessagesAndConversations,
+  addFiles,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;
