@@ -1,4 +1,5 @@
 // Clean Code Principles Applied
+
 import { useRef } from "react";
 import { PhotoIcon } from "../../../../../svg";
 import { useDispatch } from "react-redux";

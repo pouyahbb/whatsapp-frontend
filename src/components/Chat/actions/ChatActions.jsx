@@ -1,4 +1,5 @@
-// clean code
+// Clean Code Principles Applied
+
 import React, { useRef, useState } from "react";
 import EmojiPickerApp from "./EmojiPickerApp";
 import { Attachments } from "./attachments";
