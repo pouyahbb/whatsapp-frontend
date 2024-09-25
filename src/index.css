@@ -47,6 +47,9 @@
   .toast {
     animation: toast-enter 0.5s ease-out;
   }
+  .fileThumbnail:hover .removeFileIcon {
+    display: block;
+  }
 }
 
 .rotateAnimation {

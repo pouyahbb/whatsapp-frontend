@@ -18,6 +18,7 @@ const FilesPreview = () => {
         <div className="w-full flex flex-col items-center">
           <Input message={message} setMessage={setMessage} />
           <HandleAndSend
+            message={message}
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
           />

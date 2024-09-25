@@ -16,7 +16,7 @@ const VALID_FILE_TYPES = [
   "video/mpeg",
   "video/webm",
 ];
-const MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+const MAX_FILE_SIZE = 1024 * 1024 * 300; // 300MB
 
 export default function PhotoAttachment() {
   const dispatch = useDispatch();
