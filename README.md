@@ -1,3 +1,5 @@
+# Note : for using this repository you should clone another repository for lunching this project backend as well. clone this repo and backend repo. backend repository link is this : [https://github.com/pouyahbb/whatsapp-backend]
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
